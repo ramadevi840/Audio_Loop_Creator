@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborate - Audio Loop Creator</title>
+
+  <style>
+    /* Base styles */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+      color: #e6eef8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      z-index: 10;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    header h1 { color: #ffcd38; font-size: 22px; }
+    nav a {
+      color: #e6eef8;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    nav a:hover, nav a.active { background: rgba(255,255,255,0.08); color: #ffcd38; }
+
+    main {
+      padding: 100px 20px 60px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    h2 {
+      color: #dbeafe;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #a8b8d6;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: linear-gradient(180deg,#0f1724 0%, #071029 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 10px 25px rgba(2,6,23,0.6);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .upload-area:hover {
+      border-color: #3b82f6;
+      background: rgba(255,255,255,0.02);
+    }
+
+    input[type="file"] { display: none; }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: linear-gradient(90deg,#2563eb,#60a5fa);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:hover { transform: translateY(-2px); opacity: 0.95; }
+
+    #shareLinkBox {
+      margin-top: 20px;
+      display: none;
+    }
+
+    #shareLink {
+      width: 100%;
+      background: #07122a;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #dbeafe;
+      border-radius: 10px;
+      padding: 8px;
+    }
+
+    footer {
+      background: #000;
+      color: #9fb0d6;
+      text-align: center;
+      padding: 14px 0;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+ <!-- Header -->
+<header>
+     <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+
+
+  <main>
+    <section class="card">
+      <h2>Share Your Audio Loop</h2>
+      <p>Upload your trimmed loop and share it with others instantly — send as a link or let them download it!</p>
+
+      <label class="upload-area" for="audioUpload">
+        🎵 Click or Drop Your Audio Clip Here
+      </label>
+      <input type="file" id="audioUpload" accept="audio/*" />
+
+      <div id="audioPreview"></div>
+
+      <div class="buttons" id="actionButtons" style="display:none;">
+        <button onclick="generateShareLink()">Generate Share Link</button>
+        <button onclick="downloadClip()">Download Clip</button>
+      </div>
+
+      <div id="shareLinkBox">
+        <input type="text" id="shareLink" readonly />
+        <button onclick="copyLink()">Copy Link</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+  </footer>
+
+  <script>
+    const audioUpload = document.getElementById('audioUpload');
+    const preview = document.getElementById('audioPreview');
+    const buttons = document.getElementById('actionButtons');
+    const shareBox = document.getElementById('shareLinkBox');
+    const shareLinkInput = document.getElementById('shareLink');
+    let audioBlobURL = null;
+
+    audioUpload.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        if (audioBlobURL) URL.revokeObjectURL(audioBlobURL);
+        audioBlobURL = URL.createObjectURL(file);
+        preview.innerHTML = `<audio controls src="${audioBlobURL}"></audio>`;
+        buttons.style.display = 'flex';
+        shareBox.style.display = 'none';
+      }
+    });
+
+    function generateShareLink() {
+      if (!audioBlobURL) return alert('Please upload a clip first.');
+      shareLinkInput.value = audioBlobURL;
+      shareBox.style.display = 'block';
+    }
+
+    function copyLink() {
+      shareLinkInput.select();
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    }
+
+    function downloadClip() {
+      if (!audioBlobURL) return alert('No clip available.');
+      const a = document.createElement('a');
+      a.href = audioBlobURL;
+      a.download = 'trimmed_loop.mp3';
+      a.click();
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibrant Community - Audio Loop Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+  <main class="community-container">
+    <h2>Talk, Share, and Connect</h2>
+    <div id="chat-box" class="chat-box"></div>
+
+    <div class="chat-input">
+      <input type="text" id="username" placeholder="Your name">
+      <input type="text" id="message" placeholder="Type a message">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

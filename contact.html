@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - Audio Loop Creator</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+     <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+
+
+<main class="contact-page">
+    <section class="contact-hero">
+        <h1>Get in Touch</h1>
+        <p>We’d love to hear from you! Reach out to our team and we’ll respond quickly to help you.</p>
+    </section>
+
+    <section class="contact-grid">
+        <div class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <h2>Email Us</h2>
+            <p>Send us your queries and we’ll reply within 24 hours</p>
+            <a href="mailto:hello@creativehub.com">hello@creativehub.com</a>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-phone"></i>
+            <h2>Call Us</h2>
+            <p>Talk directly with our support team</p>
+            <a href="tel:+1234567890">+1 (234) 567-890</a>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-comments"></i>
+            <h2>Live Chat</h2>
+            <p>Instant support from our team</p>
+            <button class="btn-primary">Start Chat</button>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h2>Visit Us</h2>
+            <p>123 Creative Street, Innovation District<br>San Francisco, CA 94103</p>
+        </div>
+    </section>
+
+    <section class="contact-form-section">
+        <h2>Send Us a Message</h2>
+        <form class="contact-form">
+            <div class="form-row">
+                <input type="text" placeholder="First Name" required>
+                <input type="text" placeholder="Last Name" required>
+            </div>
+            <div class="form-row">
+                <input type="email" placeholder="Email Address" required>
+                <input type="tel" placeholder="Phone Number">
+            </div>
+            <select required>
+                <option value="">Choose a subject</option>
+                <option value="support">Support</option>
+                <option value="partnership">Partnership</option>
+                <option value="feedback">Feedback</option>
+                <option value="careers">Careers</option>
+            </select>
+            <textarea placeholder="Your message..." required></textarea>
+            <label class="checkbox">
+                <input type="checkbox"> I’d like to receive updates & news
+            </label>
+            <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+</footer>
+
+</body>
+</html>

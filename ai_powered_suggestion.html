@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Suggestions - Audio Loop Creator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000;
+      padding: 20px 50px;
+      backdrop-filter: blur(8px);
+    }
+    header h1 { color: #ffcd38; margin: 0; }
+    nav a {
+      color: #e6eef8;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav a.active { color: #ffcd38; }
+    #logoutBtn {
+      background: #ffcd38;
+      border: none;
+      color: #000;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .ai-container { max-width: 1000px; margin: 100px auto 50px; padding: 20px; }
+    .ai-panel {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .ai-input {
+      width: 100%;
+      min-height: 120px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 15px;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 15px;
+      resize: vertical;
+    }
+    .ai-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .ai-btn {
+      padding: 12px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .ai-btn.primary { background: #ffcd38; color: #000; }
+    .ai-btn.secondary { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+    .suggestions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .suggestion-card {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 12px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: 0.3s;
+    }
+    .suggestion-card:hover {
+      transform: scale(1.03);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .suggestion-card h3 {
+      color: #ffcd38;
+      margin: 0 0 8px;
+    }
+
+    .music-list {
+      margin-top: 12px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .music-item {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .music-item audio { width: 70%; }
+    .music-item button {
+      background: #0ea5a4;
+      border: none;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .expand-btn {
+      background: #ffcd38;
+      border: none;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    /* === Extra AI Info Section === */
+    #extraInfo {
+      margin-top: 30px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    #extraInfo h3 {
+      color: #ffcd38;
+      margin-top: 0;
+    }
+    #extraInfo ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #extraInfo li::before {
+      content: "🎵 ";
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="community.html">Community</a>
+      <a href="collaborate.html">Collaborate</a>
+      <a href="ai_powered_suggestion.html" class="active">AI-Suggestions</a>
+      <a href="learn.html">Learn More</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <button id="logoutBtn">Logout</button>
+    </nav>
+  </header>
+
+  <main class="ai-container">
+    <div class="ai-panel">
+      <h2 style="color:#ffcd38;margin-bottom:16px">AI-Powered Music Suggestions</h2>
+      <textarea id="aiPrompt" class="ai-input" placeholder="Type your mood (happy, sad, love, breakup...) or instrument (guitar, piano, flute...)"></textarea>
+      <div class="ai-controls">
+        <button id="generateBtn" class="ai-btn primary">Get Suggestions</button>
+        <button id="clearBtn" class="ai-btn secondary">Clear</button>
+      </div>
+      <div id="suggestions" class="suggestions"></div>
+      <div id="extraInfo"></div>
+    </div>
+  </main>
+<footer style="background-color: #000; text-align:center; padding:14px 0; color:white;">&copy; 2025 Audio Loop Creator. All rights reserved.</footer>
+
+  <script>
+    const moods = ["happy","sad","calm","breakup","love","angry","good feeling","chill","sleepy"];
+    const instruments = ["guitar","piano","violin","flute","trumpet","drums","xylophone","organ","mandolin","harp"];
+    const songsFolder = "songs/";
+
+    const moodSongs = {
+      "happy": { male:["happy_male1.mp3","happy_male2.mp3"], female:["happy_female1.mp3","happy_female2.mp3"], instrumental:["happy_instrument1.mp3","happy_instrument2.mp3"] },
+      "sad": { male:["sad_male1.mp3","sad_male2.mp3"], female:["sad_female1.mp3","sad_female2.mp3"], instrumental:["sad_instrument1.mp3","sad_instrument2.mp3"] },
+      "calm": { male:["calm_male1.mp3"], female:["calm_female1.mp3"], instrumental:["calm_instrument1.mp3","calm_instrument2.mp3"] },
+      "breakup": { male:["breakup_male1.mp3"], female:["breakup_female1.mp3"], instrumental:["breakup_instrument1.mp3"] },
+      "love": { male:["love_male1.mp3"], female:["love_female1.mp3"], instrumental:["love_instrument1.mp3"] },
+      "angry": { male:["angry_male1.mp3"], female:["angry_female1.mp3"], instrumental:["angry_instrument1.mp3"] },
+      "good feeling": { male:["good_male1.mp3"], female:["good_female1.mp3"], instrumental:["good_instrument1.mp3"] },
+      "chill": { male:["chill_male1.mp3"], female:["chill_female1.mp3"], instrumental:["chill_instrument1.mp3"] },
+      "sleepy": { male:["sleepy_male1.mp3"], female:["sleepy_female1.mp3"], instrumental:["sleepy_instrument1.mp3"] },
+    };
+
+    const instrumentSongs = {
+      "guitar":["guitar1.mp3","guitar2.mp3","guitar3.mp3","guitar4.mp3","guitar5.mp3"],
+      "piano":["piano1.mp3","piano2.mp3","piano3.mp3","piano4.mp3","piano5.mp3"],
+      "flute":["flute1.mp3","flute2.mp3","flute3.mp3","flute4.mp3","flute5.mp3"],
+      "violin":["violin1.mp3","violin2.mp3","violin3.mp3","violin4.mp3","violin5.mp3"],
+      "trumpet":["trumpet1.mp3","trumpet2.mp3","trumpet3.mp3","trumpet4.mp3","trumpet5.mp3"],
+      "drums":["drum_1.mp3","drum2.mp3","drum3.mp3","drum4.mp3","drum5.mp3"],
+      "xylophone":["xylophone1.mp3","xylophone2.mp3","xylophone3.mp3","xylophone4.mp3","xylophone5.mp3"],
+      "organ":["organ1.mp3","organ2.mp3","organ3.mp3","organ4.mp3","organ5.mp3"],
+      "mandolin":["mandolin1.mp3","mandolin2.mp3","mandolin3.mp3","mandolin4.mp3","mandolin5.mp3"],
+      "harp":["harp1.mp3","harp2.mp3","harp3.mp3","harp4.mp3","harp5.mp3"],
+    };
+
+    const moodInfo = {
+      happy: {
+        hz: "528 Hz - boosts mood and happiness.",
+        singers: ["Pharrell Williams", "Arijit Singh", "Katy Perry", "Bruno Mars"],
+        tip: "Listen to upbeat tracks with major scales and lively rhythm."
+      },
+      sad: {
+        hz: "396 Hz - helps release sadness and guilt.",
+        singers: ["Adele", "Atif Aslam", "Billie Eilish", "Papon"],
+        tip: "Soft piano and low-tone melodies work best when feeling low."
+      },
+      calm: {
+        hz: "432 Hz - natural earth frequency for relaxation.",
+        singers: ["Yanni", "Enya", "Anuv Jain", "Prateek Kuhad"],
+        tip: "Try slow instrumental tracks or ambient sounds."
+      },
+      breakup: {
+        hz: "417 Hz - emotional healing frequency.",
+        singers: ["Taylor Swift", "Arijit Singh", "Adele", "Lewis Capaldi"],
+        tip: "Heartfelt lyrics and gentle beats ease emotional stress."
+      },
+      love: {
+        hz: "528 Hz - frequency of love and harmony.",
+        singers: ["Ed Sheeran", "Shreya Ghoshal", "Justin Bieber", "Armaan Malik"],
+        tip: "Romantic tracks with warm vocals are most soothing."
+      },
+      angry: {
+        hz: "639 Hz - brings balance and calmness.",
+        singers: ["Linkin Park", "Imagine Dragons", "Eminem"],
+        tip: "Listen to soft rock or instrumental beats to calm energy."
+      },
+      chill: {
+        hz: "741 Hz - clears thoughts and boosts positivity.",
+        singers: ["Lofi Beats Artists", "Anuv Jain", "Coldplay"],
+        tip: "Lofi or chillhop music creates relaxing vibes."
+      },
+      sleepy: {
+        hz: "174 Hz - deep relaxation and sleep improvement.",
+        singers: ["Instrumental Artists", "Yiruma", "Relaxing BGM Creators"],
+        tip: "Play soft instrumental or white noise at low volume."
+      }
+    };
+
+    const instrumentInfo = {
+      guitar: { hz: "110–880 Hz", singers: ["John Mayer","Ed Sheeran","KK"], tip: "Best for acoustic vibes or emotional solos." },
+      piano: { hz: "27–4200 Hz", singers: ["Yiruma","Alicia Keys","AR Rahman"], tip: "Perfect for emotional and soulful tones." },
+      flute: { hz: "261–2093 Hz", singers: ["Hariprasad Chaurasia","Andrea Griminelli"], tip: "Ideal for meditation and calm music." },
+      violin: { hz: "196–3136 Hz", singers: ["Itzhak Perlman","Lindsey Stirling"], tip: "Creates emotional and rich sound layers." },
+      drums: { hz: "60–300 Hz", singers: ["Travis Barker","Ranjit Barot"], tip: "Good for energetic and rhythmic beats." },
+      trumpet: { hz: "165–987 Hz", singers: ["Louis Armstrong","Chris Botti"], tip: "Best used for jazz or celebration music." },
+      xylophone: { hz: "500–4000 Hz", singers: ["Orchestral Artists"], tip: "Adds playful or festive tones." },
+      organ: { hz: "32–8000 Hz", singers: ["Church Choir Artists"], tip: "Perfect for background grandeur." },
+      mandolin: { hz: "196–880 Hz", singers: ["Chris Thile","U Srinivas"], tip: "Ideal for folk and traditional melodies." },
+      harp: { hz: "32–3951 Hz", singers: ["Celtic Musicians"], tip: "Creates dreamy and angelic ambience." }
+    };
+
+    document.getElementById("generateBtn").addEventListener("click", generateSuggestions);
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      document.getElementById("aiPrompt").value = "";
+      document.getElementById("suggestions").innerHTML = "";
+      document.getElementById("extraInfo").innerHTML = "";
+    });
+
+    function generateSuggestions() {
+      const input = document.getElementById("aiPrompt").value.toLowerCase().trim();
+      const container = document.getElementById("suggestions");
+      const extra = document.getElementById("extraInfo");
+      container.innerHTML = "";
+      extra.innerHTML = "";
+
+      if (!input) return alert("Please type something!");
+
+      const mood = moods.find(m => input.includes(m));
+      const instrument = instruments.find(i => input.includes(i));
+
+      if (mood && !instrument) {
+        renderMoodSuggestions(mood, container);
+        showExtraInfo(mood, "mood");
+      } else if (instrument && !mood) {
+        renderInstrumentSuggestions(instrument, container);
+        showExtraInfo(instrument, "instrument");
+      } else {
+        alert("Please type a clear mood or instrument.");
+      }
+    }
+
+    function renderMoodSuggestions(mood, container) {
+      const data = moodSongs[mood];
+      if (!data) return container.innerHTML = `<p>No songs found for ${mood}</p>`;
+      const normalBox = createSuggestionCard(`${mood.toUpperCase()} - Normal Songs`, [
+        { title: "Female Version", list: data.female },
+        { title: "Male Version", list: data.male }
+      ]);
+      const instrumentalBox = createSuggestionCard(`${mood.toUpperCase()} - Instrumental Music`, [
+        { title: "Instrumental", list: data.instrumental }
+      ]);
+      container.append(normalBox, instrumentalBox);
+    }
+
+    function renderInstrumentSuggestions(inst, container) {
+      const list = instrumentSongs[inst];
+      if (!list) return container.innerHTML = `<p>No music found for ${inst}</p>`;
+      const box = createSuggestionCard(`${inst.toUpperCase()} Instrumental Sounds`, [{ title: "Instrumental Variants", list }]);
+      container.appendChild(box);
+    }
+
+    function createSuggestionCard(title, sections) {
+      const card = document.createElement("div");
+      card.className = "suggestion-card";
+
+      const h3 = document.createElement("h3");
+      h3.textContent = title;
+      card.appendChild(h3);
+
+      const expandBtn = document.createElement("button");
+      expandBtn.textContent = "Show Songs";
+      expandBtn.className = "expand-btn";
+      card.appendChild(expandBtn);
+
+      const musicList = document.createElement("div");
+      musicList.className = "music-list";
+
+      sections.forEach(sec => {
+        const secTitle = document.createElement("h4");
+        secTitle.textContent = sec.title;
+        secTitle.style.color = "#ffcd38";
+        musicList.appendChild(secTitle);
+
+        sec.list.forEach(file => {
+          const item = document.createElement("div");
+          item.className = "music-item";
+          const audio = document.createElement("audio");
+          audio.src = songsFolder + file;
+          audio.controls = true;
+
+          const btn = document.createElement("button");
+          btn.textContent = "Download";
+          btn.onclick = () => downloadFile(songsFolder + file);
+
+          item.append(audio, btn);
+          musicList.appendChild(item);
+        });
+      });
+
+      expandBtn.addEventListener("click", () => {
+        musicList.style.display = musicList.style.display === "flex" ? "none" : "flex";
+        expandBtn.textContent = musicList.style.display === "flex" ? "Hide Songs" : "Show Songs";
+      });
+
+      card.appendChild(musicList);
+      return card;
+    }
+
+    function showExtraInfo(input, type) {
+      const info = type === "mood" ? moodInfo[input] : instrumentInfo[input];
+      if (!info) return;
+      const box = document.getElementById("extraInfo");
+      box.innerHTML = `
+        <h3>🎧 Additional AI Insights for "${input.toUpperCase()}"</h3>
+        <p><b>Recommended Frequency:</b> ${info.hz}</p>
+        <p><b>Listening Tip:</b> ${info.tip}</p>
+        <p><b>Famous Artists/Singers:</b></p>
+        <ul>${info.singers.map(s => `<li>${s}</li>`).join("")}</ul>
+      `;
+    }
+
+    function downloadFile(file) {
+      const a = document.createElement("a");
+      a.href = file;
+      a.download = file.split("/").pop();
+      a.click();
+    }
+  </script>
+</body>
+</html>

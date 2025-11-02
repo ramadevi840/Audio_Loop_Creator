@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn More - Audio Loop Creator</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+     <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+
+<section class="learnmore">
+    <h2>Learn More About Audio Loop Creator</h2>
+    <p>Audio Loop Creator is perfect for music enthusiasts, podcasters, and content creators. Learn how to:</p>
+    <ul>
+        <li>Create seamless loops from your audio files</li>
+        <li>Edit and trim music easily</li>
+        <li>Mix multiple loops into a professional track</li>
+        <li>Collaborate with friends or the community</li>
+    </ul>
+
+    <h3>Tips & Tricks</h3>
+    <div class="card-container">
+        <div class="card">
+            <h4>Loop Editing</h4>
+            <p>Ensure your start and end points align perfectly for a smooth loop.</p>
+        </div>
+        <div class="card">
+            <h4>Layering</h4>
+            <p>Combine multiple loops to create rich, dynamic audio.</p>
+        </div>
+        <div class="card">
+            <h4>Export Quality</h4>
+            <p>Export in WAV for high-quality sound or MP3 for easy sharing.</p>
+        </div>
+        <div class="card">
+            <h4>Share & Collaborate</h4>
+            <p>Share your loops online and collaborate on exciting projects.</p>
+        </div>
+    </div>
+
+    <section class="how-to-use">
+  <h2>How to Use Audio Loop Creator</h2>
+  <p>Follow these simple steps to create your own audio loops quickly:</p>
+
+  <!-- Steps -->
+  <ul class="how-to-steps">
+    <li>Click on <strong>"Start Creating"</strong> on the homepage.</li>
+    <li>Upload your audio files or select loops from our library.</li>
+    <li>Mix and edit your loops using the simple interface.</li>
+    <li>Preview your loop before saving.</li>
+    <li>Download or share your finished audio loop.</li>
+  </ul>
+
+  <!-- Video -->
+  <div class="video-container">
+    <video controls autoplay muted loop>
+      <source src="videos/wtproject_video.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+</section>
+
+    <button onclick="location.href='startcreation.html'" class="hero-btn">Start Creating</button>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+</footer>
+
+</body>
+</html>

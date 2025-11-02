@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio Loop Creator</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="community.html">community</a>
+    <a href="collaborate.html">collaborate</a>
+    <a href="ai_powered_suggestion.html">AI-suggestions</a>
+    <a href="learn.html">Learn More</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">Contact</a>
+
+    <a href="login.html" id="loginLink">Login</a>
+    <button id="logoutBtn" style="display:none;" onclick="logoutUser()">Logout</button>
+  </nav>
+  <span id="welcomeUser"></span>
+</header>
+
+
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Welcome to Audio Loop Creator</h1>
+    <p>Create, mix, and share amazing audio loops easily. Start your music journey today!</p>
+    <div class="hero-buttons">
+        <button onclick="window.location.href='startcreation.html'">Start Creating</button>
+        <button onclick="window.location.href='view-library.html'">View Library</button>
+    </div>
+    <div class="hero-image">
+        <img src="image/waves_image.png" alt="Audio Waves">
+        </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <h2>Why Choose Us?</h2>
+    <div class="feature-cards">
+        <div class="card">
+            <img src="image/image1.png" alt="Easy Looping" class="feature-icon">
+            <h3>Easy Looping</h3>
+            <p>Select your start and end points and loop your audio effortlessly with our intuitive waveform editor.</p>
+        </div>
+        <div class="card">
+            <img src="image/image1.png" alt="Download Loops" class="feature-icon">
+            <h3>Download Loops</h3>
+            <p>Export your loops in high-quality WAV or MP3 formats, ready to use in any DAW or project.</p>
+        </div>
+        <div class="card">
+            <img src="image/image3.png" alt="Collaborate" class="feature-icon">
+            <h3>Collaborate</h3>
+            <p>Share your loops instantly and collaborate in real-time with musicians worldwide using our cloud platform.</p>
+        </div>
+        <div class="card">
+            <img src="image/image4.png" alt="Free & Premium" class="feature-icon">
+              <h3>Free & Premium</h3>
+            <p>Access powerful free tools or unlock advanced features, exclusive sound packs, and unlimited storage without need Premium.</p>
+        </div>
+        <div class="card">
+        <img src="image/image5.png"  alt="AI-Powered Suggestions" class="feature-icon">
+            <h3>AI-Powered Suggestions</h3>
+            <p>Get smart loop recommendations and auto-matching beats with our built-in AI assistant.</p>
+        </div>
+        <div class="card">
+           <img src="image/image6.png" alt="Mobile Friendly" class="feature-icon">
+            <h3>Mobile Friendly</h3>
+            <p>Create and edit loops on the go with our fully responsive, mobile-optimized interface.</p>
+        </div>
+        <div class="card">
+            <img src="image/image8.png" alt="Vibrant Community" class="feature-icon">
+           <h3>Vibrant Community</h3>
+            <p>Join a passionate community, participate in challenges, and get feedback on your creations.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-cards">
+        <div class="testimonial">
+            <p>"This platform helped me create my first professional loop!"</p>
+            <strong>- Alex M.</strong>
+        </div>
+        <div class="testimonial">
+            <p>"Easy to use and very intuitive. Loved it!"</p>
+            <strong>- Sara K.</strong>
+        </div>
+        <div class="testimonial">
+            <p>"The download feature works perfectly. Highly recommend!"</p>
+            <strong>- Liam W.</strong>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<!--how to use -->
+<section class="how-to-use">
+  <h2>How to Use Audio Loop Creator</h2>
+  <p>Follow these simple steps to create your own audio loops quickly:</p>
+
+  <!-- Steps -->
+  <ul class="how-to-steps">
+    <li>Click on <strong>"Start Creating"</strong> on the homepage.</li>
+    <li>Upload your audio files or select loops from our library.</li>
+    <li>Mix and edit your loops using the simple interface.</li>
+    <li>Preview your loop before saving.</li>
+    <li>Download or share your finished audio loop.</li>
+  </ul>
+
+  <!-- Video -->
+  <div class="video-container">
+    <video controls autoplay muted loop>
+      <source src="videos/wtproject_video.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+</section>
+ <script>
+    // ✅ Show updated homepage text (if admin changed it)
+    const saved = localStorage.getItem("homepageText");
+    if (saved) document.getElementById("welcomeUser").textContent = saved;
+  </script>
+
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+</footer>
+
+</body>
+</html>

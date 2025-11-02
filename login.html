@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Audio Loop Creator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+     <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+
+
+<section class="auth-section">
+    <h2>Welcome Back!</h2>
+    <p>Login to access your loops, start creating, and share your music with the community.</p>
+    <form onsubmit="event.preventDefault(); loginUserOverlay();">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit">Sign In</button>
+        <p>Don't have an account? <a href="signup.html" style="color:#ffbb33;">Sign Up</a></p>
+        <p>admin </p><a href="admin-login.html" style="color:#ff4444;">Admin Login</a>
+    </form>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+</footer>
+
+</body>
+</html>
