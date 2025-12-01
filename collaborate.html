@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborate - Audio Loop Creator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="collaborate-page">
+
+ <!-- Header -->
+<header>
+  <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="community.html">community</a>
+    <a href="collaborate.html" class="active">collaborate</a>
+    <a href="ai_powered_suggestion.html">AI-suggestions</a>
+    <a href="learn.html">Learn More</a>
+    <a href="about.html">about</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="user-controls">
+    <span id="welcomeUser"></span>
+    <a href="login.html" id="loginLink">Login</a>
+    <button id="logoutBtn" style="display:none;" onclick="logoutUser()">Logout</button>
+  </div>
+</header>
+
+
+  <main class="collaborate-main">
+    <section class="collab-card">
+      <h2>Share Your Audio Loop</h2>
+      <p>Upload your trimmed loop and share it with others instantly — send as a link or let them download it!</p>
+
+      <label class="upload-area" for="audioUpload">
+        🎵 Click or Drop Your Audio Clip Here
+      </label>
+      <input type="file" id="audioUpload" accept="audio/*" />
+
+      <div id="audioPreview"></div>
+
+      <div class="collab-buttons" id="actionButtons" style="display:none;">
+        <button class="collab-btn" onclick="generateShareLink()">Generate Share Link</button>
+        <button class="collab-btn" onclick="downloadClip()">Download Clip</button>
+      </div>
+
+      <div id="shareLinkBox">
+        <input type="text" id="shareLink" readonly />
+        <button class="collab-btn" onclick="copyLink()">Copy Link</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 Audio Loop Creator. All rights reserved.</footer>
+
+  <script>
+    const audioUpload = document.getElementById('audioUpload');
+    const preview = document.getElementById('audioPreview');
+    const buttons = document.getElementById('actionButtons');
+    const shareBox = document.getElementById('shareLinkBox');
+    const shareLinkInput = document.getElementById('shareLink');
+    let audioBlobURL = null;
+
+    audioUpload.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        if (audioBlobURL) URL.revokeObjectURL(audioBlobURL);
+        audioBlobURL = URL.createObjectURL(file);
+        preview.innerHTML = `<audio controls src="${audioBlobURL}"></audio>`;
+        buttons.style.display = 'flex';
+        shareBox.style.display = 'none';
+      }
+    });
+
+    function generateShareLink() {
+      if (!audioBlobURL) return alert('Please upload a clip first.');
+      shareLinkInput.value = audioBlobURL;
+      shareBox.style.display = 'block';
+    }
+
+    function copyLink() {
+      shareLinkInput.select();
+      document.execCommand('copy');
+      alert('Link copied to clipboard!');
+    }
+
+    function downloadClip() {
+      if (!audioBlobURL) return alert('No clip available.');
+      const a = document.createElement('a');
+      a.href = audioBlobURL;
+      a.download = 'trimmed_loop.mp3';
+      a.click();
+    }
+  </script>
+
+</body>
+</html>

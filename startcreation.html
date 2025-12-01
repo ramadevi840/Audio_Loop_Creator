@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Creating - Audio Loop Creator</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+     <div class="logo" onclick="goBack()">Audio Loop Creator</div>
+    <nav>
+        <a href="index.html">Home</a>
+        
+        <a href="community.html">community</a>
+        <a href="collaborate.html">collaborate</a>
+        <a href="ai_powered_suggestion.html">AI-suggestions</a>
+        <a href="learn.html">Learn More</a>
+        <a href="about.html">about</a>
+        <a href="contact.html">Contact</a>
+        <span id="welcomeUser" onclick="toggleLogout()"></span>
+        <button id="logoutBtn" onclick="logoutUser()" style="display:none;">Logout</button>
+    </nav>
+</header>
+
+
+<section class="editor" id="editor">
+    <h2>Create Your Audio Loop</h2>
+    <p>Select an audio file, define start/end points, set loop duration, and download your masterpiece.</p>
+
+    <div class="editor-box">
+        <input type="file" id="audioFile" accept="audio/*">
+
+        <div class="controls">
+            <label>Start (sec): <input type="number" id="startSec" min="0" value="0"></label><br><br>
+            <label>End (sec): <input type="number" id="endSec" min="1" value="5"></label><br><br>
+            <label>Loop Duration (minutes): <input type="number" id="loopDuration" min="1" value="1"></label><br><br>
+        </div>
+
+        <div class="buttons">
+            <button id="playLoop">Play Loop</button>
+            <button id="stopLoop">Stop</button>
+            <button id="downloadLoop">Download Loop</button>
+        </div>
+
+        <p class="tips">Tip: Preview your loop before downloading to ensure smooth playback.</p>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 Audio Loop Creator. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create — Audio Loop Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo" onclick="location.href='index.html'">🎵 CreativeHub</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="create.html" class="active">Create</a>
+      <a href="learn.html">Learn</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <button onclick="location.href='index.html'">Back</button>
+    </div>
+  </header>
+
+  <main class="simple-page">
+    <h1>Creator Workspace</h1>
+    <p>This is where the audio loop editor will live. Implement the multitrack looper, upload, and export features here.</p>
+
+    <div class="placeholder-card">
+      <h3>Quick demo controls (placeholders)</h3>
+      <p>Build loops, add samples, set tempo, and export.</p>
+      <button class="btn primary" onclick="alert('Open real looper implementation here')">Open Looper</button>
+    </div>
+  </main>
+  
+
+  <footer class="footer small">
+    <div class="container">© <span id="year2"></span> CreativeHub</div>
+  </footer>
+
+  <script>
+    document.getElementById('year2').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
